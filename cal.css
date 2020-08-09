@@ -1,0 +1,119 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  background-color: #E0E5EC;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#main-container {
+  height: 80%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+#main-container #calculator {
+  height: 100%;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+#main-container #calculator .monitor {
+  height: 200px;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+#main-container #calculator .monitor .monitor-show {
+  height: 100%;
+  width: 100%;
+  font-size: 30px;
+  font-weight: bolder;
+  font-family: "Quicksand", sans-serif;
+  border-radius: 20px;
+  border: none;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #E0E5EC;
+  box-shadow: inset 5px 5px 10px #A3B1C6, inset -7px -7px 15px white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+#main-container #calculator .monitor .monitor-show .monitor-input {
+  font-size: 50px;
+  color: #ff006e;
+}
+#main-container #calculator #buttons-container {
+  height: 500px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-template-areas: "action action action operator" "number number number operator" "number number number operator" "number number number operator" "number number number operator";
+}
+#main-container #calculator #buttons-container #buttons-action {
+  grid-area: action;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+#main-container #calculator #buttons-container #buttons-number {
+  grid-area: number;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-template-areas: ". . ." ". . ." ". . ." "zero zero .";
+}
+#main-container #calculator #buttons-container #buttons-number #btn-0 {
+  grid-area: zero;
+}
+#main-container #calculator #buttons-container #buttons-operator {
+  grid-area: operator;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(5, 1fr);
+}
+#main-container #calculator .buttons-container {
+  padding: 10px;
+  box-sizing: border-box;
+}
+#main-container #calculator .buttons-container .buttons-frame .button-con {
+  padding: 10px;
+}
+#main-container #calculator .buttons-container .buttons-frame .button-con .button {
+  height: 100%;
+  width: 100%;
+  font-size: 25px;
+  font-weight: 700;
+  font-family: "Quicksand", sans-serif;
+  border-radius: 100px;
+  border: none;
+  background-color: #E0E5EC;
+  box-shadow: 5px 5px 10px #A3B1C6, -7px -7px 15px white;
+}
+#main-container #calculator .buttons-container .buttons-frame .button-con .button:focus {
+  outline: none;
+  box-shadow: inset 5px 5px 10px #A3B1C6, inset -7px -7px 15px white;
+}
+
+@media only screen and (min-width: 500px) {
+  #main-container {
+    height: 90vh;
+    width: 100vw;
+  }
+  #main-container #calculator {
+    border-radius: 30px;
+    box-shadow: 7px 7px 10px #A3B1C6, -10px -10px 15px white;
+  }
+}
+
+/*# sourceMappingURL=cal.css.map */

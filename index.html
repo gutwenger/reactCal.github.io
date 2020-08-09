@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cal.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@515&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>Calculator</title>
+</head>
+<body>
+    <div id="main-container">
+
+    </div>
+</body>
+<script type="text/babel">
+    
+    class Monitor extends React.Component {
+        render() {
+            return (
+                <div id="monitor" className="monitor">
+                    <div id="monitor-show" className="monitor-show">
+                        <p class="monitor-result">{this.props.result}</p>
+                        <p class="monitor-input">{this.props.input}</p>
+                    </div>
+                </div>
+            )
+        }
+    }
+
+    class Button extends React.Component {  
+        render() {
+            return (
+                <div id={this.props.id} className="button-con">
+                    <button value={this.props.value} className="button" onClick={(value) =>{this.props.onclick(this.props.value)}}>{this.props.show}</button>
+                </div>
+            )
+        }
+    }
+
+    class ButtonContainer extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                "action": [
+                    {
+                        value: "AC",
+                        show: "AC"
+                    },
+                    {
+                        value: "plus-minus",
+                        show: "+/-"
+                    },
+                    {
+                        value: "%",
+                        show: "%"
+                    }
+                ],
+                "number": [
+                    {
+                        value: "7",
+                        show: "7"
+                    },
+                    {
+                        value: "8",
+                        show: "8"
+                    },
+                    {
+                        value: "9",
+                        show: "9"
+                    },
+                    {
+                        value: "4",
+                        show: "4"
+                    },
+                    {
+                        value: "5",
+                        show: "5"
+                    },
+                    {
+                        value: "6",
+                        show: "6"
+                    },
+                    {
+                        value: "1",
+                        show: "1"
+                    },
+                    {
+                        value: "2",
+                        show: "2"
+                    },
+                    {
+                        value: "3",
+                        show: "3"
+                    },
+                    {
+                        value: "0",
+                        show: "0"
+                    },
+                    {
+                        value: ".",
+                        show: "."
+                    }
+                ],
+                "operator": [
+                    {
+                        value: "/",
+                        show: "÷"
+                    },
+                    {
+                        value: "*",
+                        show: "X"
+                    },
+                    {
+                        value: "-",
+                        show: "-"
+                    },
+                    {
+                        value: "+",
+                        show: "+"
+                    },
+                    {
+                        value: "=",
+                        show: "="
+                    }
+                ]
+            }
+        }
+
+        render() {    
+            let action = [];
+            let number = [];
+            let operator = [];
+
+            this.state.action.forEach(item => {
+                action.push(<Button value={item.value} show={item.show} onclick={this.props.onclick} />);
+            })
+
+            this.state.number.forEach(item => {
+                if (item.value === "0") {
+                    number.push(<Button id="btn-0" value={item.value} show={item.show} onclick={this.props.onclick}/>)
+                } else {
+                number.push(<Button value={item.value} show={item.show} onclick={this.props.onclick} />);
+                }
+            })
+
+            this.state.operator.forEach(item => {
+                operator.push(<Button value={item.value} show={item.show} onclick={this.props.onclick}/>);
+            })
+
+            return (
+                <div id="buttons-container" className="buttons-container">
+                    <div id="buttons-action" className="buttons-frame">
+                        {action}
+                    </div>
+                    <div id="buttons-number" className="buttons-frame">
+                        {number}
+                    </div>
+                    <div id="buttons-operator" className="buttons-frame">
+                        {operator}
+                    </div> 
+                </div> 
+            )
+        }
+    }
+
+    class Calculator extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                result: '',
+                input: '',
+                answer: '',
+                operant: false,
+                dot: true,
+                tempInput: '',
+                plus: true
+            }
+            this.valueInput = this.valueInput.bind(this);
+        }
+
+        valueInput(value) {
+            switch(value) {
+                // action
+                case "AC":
+                    console.log("AC");
+                    this.setState({
+                        result: '',
+                        input: '',
+                        answer: '',
+                        operant: false,
+                        dot: true,
+                        tempInput: false,
+                        plus: true,
+                        finish: true
+                    })
+                    break;
+                case "plus-minus":
+                    console.log("plus-minus");
+                    if (this.state.input < 0) {
+                        this.setState({
+                            input: Math.abs(this.state.input)
+                        })
+                    } else {
+                        this.setState({
+                            input: -this.state.input
+                        })
+                    }
+                    break;
+                case "%":
+                    console.log("%");
+                    this.setState({
+                        input: this.state.input / 100,
+                        plus: false
+                    });
+                    break;
+                // operants
+                case "/":
+                case "*":
+                case "-":
+                case "+":
+                    if (this.state.finish === true) {
+                        this.setState({
+                            result: this.state.input + value,
+                            input: this.state.input,
+                            operant: true,
+                            dot: false,
+                            tempInput: '',
+                            finish: false
+                        })
+                    } else if (this.state.operant === false) {
+                        this.setState({
+                            result: this.state.result.concat(this.state.input).concat(value),
+                            input: this.state.input,
+                            operant: true,
+                            dot: false,
+                            tempInput: ''
+                        })
+                    } else {
+                        this.setState({
+                            result: this.state.result.slice(0, this.state.result.length - 1) + value,
+                        })
+                    }
+                    break;
+                case "=":
+                    if (this.state.operant === true) break;
+                    const result = this.state.result + this.state.input;
+                    this.setState({
+                        result: JSON.stringify(eval(result)),
+                        input: eval(result),
+                        tempInput: eval(result),
+                        answer: eval(result),
+                        finish: true
+                    })
+                    break;
+                // dot
+                case ".":
+                    console.log(".");
+                    if (this.state.dot === false) {
+                        this.setState({
+                            input: this.state.input + value,
+                            tempInput: this.state.input + value,
+                            operant: false,
+                            dot: true
+                        })
+                    }
+                    break;
+                // numbers
+                default:
+                    if (this.state.operant === true) {
+                        this.setState({
+                            input: value,
+                            tempInput: value,
+                            plus: true
+                        })
+                    } else {
+                        this.setState({
+                            input: this.state.input + value,
+                            tempInput: this.state.input + value
+                        })
+                    }
+                    this.setState({
+                        operant: false,
+                        dot: false
+                    })
+                    break;
+            }
+        }
+
+        render() {
+            return (
+                <div id="calculator">
+                    <Monitor result={this.state.result} input={this.state.input} tempInput={this.state.tempInput}/>
+                    <ButtonContainer onclick={this.valueInput}/>
+                </div>
+            )
+        }
+    }
+
+    ReactDOM.render(
+        <Calculator />,
+        document.querySelector("#main-container")
+    )
+
+</script>
+</html>
